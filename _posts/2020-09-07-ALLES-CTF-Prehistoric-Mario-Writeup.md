@@ -65,7 +65,7 @@ The hash produced from the above code was different to the expected `96832b93` h
 ... D ALLES-CTF this is the index: 0
 ```
 
-If we look at the `assets/map.tmx` file in the APK, we see that the `questionmarkType` blocks have values 0, 21, 37, 97 and 1337. The 1337 block corresponded to the rainbow block used for checking the flag, and the others represented the state of the block. I'm not sure were the 57 value came from since it wasn't the same number as any state. I checked this against my local `MessageDigest` java file by updating the byte at index 0 to 57, and received the same `96832b93` hash, so we found the correct message format. 
+If we look at the `assets/map.tmx` file in the APK, we see that the `questionmarkType` blocks have values 0, 21, 37, 97 and 1337. The 1337 block corresponded to the rainbow block used for checking the flag, and the others represented the state of the block. I'm not sure where the 57 value came from since it wasn't the same number as any state. I checked this against my local `MessageDigest` java file by updating the byte at index 0 to 57, and received the same `96832b93` hash, so we found the correct message format. 
 
 ## Cracking the hash
 
