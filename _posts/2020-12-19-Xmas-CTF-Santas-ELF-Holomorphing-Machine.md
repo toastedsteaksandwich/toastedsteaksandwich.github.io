@@ -66,20 +66,19 @@ for line in lines:
 		ub = u.split(' ')[6] #get just b
 		va = float(ub)*(-1) #v = -bx + ay
 		vb = float(ua) #v = -bx + ay
-		
 
 		#now we need to send in z into u and v, to get f(z) 
 		z = line.split(';')[1] #just get z = a + bi
 		za = z.split(' ')[3] #we just need the a from z = a + bi
 		zb = z.split(' ')[5] #we just need the b from z = a + bi
 		
-        #work out u(za,zb)
+		#work out u(za,zb)
 		uz = float(ua) * float(za) + float(ub) * float(zb)
 		
-        #work out v(za,zb)
+		#work out v(za,zb)
 		vz = float(va) * float(za) + float(vb) * float(zb)
 		
-        #the affix is (u(za,zb), v(za,zb))
+		#the affix is (u(za,zb), v(za,zb))
 		print("(" + str(uz) + ", " + str(vz) + ")")
 		xpoints.append(uz)
 		ypoints.append(-vz) #need to flip all points about the y-axis
