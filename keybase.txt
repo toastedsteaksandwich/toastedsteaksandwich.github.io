@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/ashiqamien
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://ashiq.co.za
+  * I am ashiqamien (https://keybase.io/ashiqamien) on keybase.
+  * I have a public key ASB0_7QwiWTwt5ptigX1NxPzPvHu7ESwWwamGPLEhROOxQo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120fd2f3991a5a0cce573047017508d40aaa3e9e220e01ffd10b0ec61b4b1650a6c0a",
+      "host": "keybase.io",
+      "kid": "012074ffb4308964f0b79a6d8a05f53713f33ef1eeec44b05b06a618f2c485138ec50a",
+      "uid": "78db36fab6936f85b43cd54492dfbd19",
+      "username": "ashiqamien"
+    },
+    "merkle_root": {
+      "ctime": 1609788436,
+      "hash": "55fdd9f0a36924aebcd94f268c3a3aabbe589de157c7d87e845b627c76273d13219c733871cc23d8f3a320a73f2fffe30188ed50bdfc28c1f3a1271207630239",
+      "hash_meta": "6274ee3f9cc185839584fbcdbc7a93ce62e3f25ad77c0af14f107df98109b6cc",
+      "seqno": 18590741
+    },
+    "service": {
+      "entropy": "ezJNl21g6Wms7dOreUWMTflj",
+      "hostname": "ashiq.co.za",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.5.2"
+  },
+  "ctime": 1609788458,
+  "expire_in": 504576000,
+  "prev": "1618389dc68dc0e743a9e84f4b715afaab6ecc933612c91da853da8467a1a43b",
+  "seqno": 20,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgdP+0MIlk8LeabYoF9TcT8z7x7uxEsFsGphjyxIUTjsUKp3BheWxvYWTESpcCFMQgFhg4ncaNwOdDqehPS3Fa+qtuzJM2EskdqFPahGehpDvEIM1B2VFF94sDjmiUStaX/XkSbXKXnxjMqgyd6//k+qn/AgHCo3NpZ8RAfjU2nu767hzuGikaXlyJUOQLr9P/zAwEOl13N1imrsKWi6bIlP1afBnQAlCq/xft2aG8weFkNM8/mY0Y+K/UBqhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIFm5cTCUgpr8fLMoxtLmvhNvslLWAc7HQgkxvDqc6i+Ko3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/ashiqamien
+
+==================================================================
