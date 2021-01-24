@@ -231,10 +231,10 @@ $sidebar-display: "sidebar-display";
 #avatar {
   >a {
     display: block;
-    width: 6rem;
+    width: 2rem;
     height: 6rem;
     border-radius: 50%;
-    border: 2px solid #b6b6b6;
+    border: 3.3px solid #b6b6b6;
     overflow: hidden;
     transform: translateZ(0); // fixed the zoom in Safari
     -webkit-transition: border-color 0.35s ease-in-out;
@@ -252,13 +252,15 @@ $sidebar-display: "sidebar-display";
     -webkit-transition: transform .5s;
     -moz-transition: transform .5s;
     transition: transform .5s;
-
+    
+    /*
     &:hover {
       -ms-transform: scale(1.2);
       -moz-transform: scale(1.2);
       -webkit-transform: scale(1.2);
       transform: scale(1.2);
     }
+    */
   }
 } // #avatar
 
@@ -1370,8 +1372,8 @@ div.post-content .table-wrapper {
       -ms-flex-pack: normal !important;
       justify-content: normal !important;
       >a {
-        width: 6.2rem;
-        height: 6.2rem;
+        width: 12.4rem; //good tested size
+        height: 12.4rem;
       }
     }
 
