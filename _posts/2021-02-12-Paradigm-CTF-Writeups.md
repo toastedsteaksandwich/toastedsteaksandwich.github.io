@@ -192,7 +192,7 @@ The goal is to drain both the [aggregator](../../assets/code/paradigmctf-2021/Yi
 
 Notice that if we had some pool tokens, we could drain the ETH balance of both the aggregator and bank since we send the WETH directly to `msg.sender` instead of the MiniBank/owner itself. Since the yield-aggregator contract is not tied to any protocol, we could just create our own Minibank to spoof the underlying balance and get some free tokens. I initially thought we should try to force a revert when calling `protocol.mint(amount)` so that we land up into the catch statement, but I realized that the only thing necessary is to update the underlying balance. The following contract was the malicious Minibank used to spoof the underlying balance:
 
-```
+```javascript
 contract DodgyAfBank is Protocol {
 
     ERC20Like public override underlying = ERC20Like(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
