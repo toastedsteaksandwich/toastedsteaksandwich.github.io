@@ -8,4 +8,4 @@ title: About
 # MIT License
 ---
 
-This site is currently dedicated to my CTF writeups. I may add other content in the future :) 
+This site is currently dedicated to my CTF writeups, training material, and other security-related content. 
