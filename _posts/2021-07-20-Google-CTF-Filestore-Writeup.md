@@ -1,5 +1,5 @@
 ---
-title: Google CTF 2021 - Filestore Challenge Writeup
+title: 💾 Google CTF 2021 - Filestore Challenge Writeup
 author: Ashiq Amien
 date: 2021-07-20 14:00:00 +0200
 categories: [CTF, Misc]

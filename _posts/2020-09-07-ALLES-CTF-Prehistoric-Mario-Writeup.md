@@ -1,5 +1,5 @@
 ---
-title: ALLES! CTF 2020 - Prehistoric Mario Writeup
+title: 🎮 ALLES! CTF 2020 - Prehistoric Mario Writeup
 author: Ashiq Amien
 date: 2020-09-07 21:45:00 +0200
 categories: [CTF, Reverse Engineering]

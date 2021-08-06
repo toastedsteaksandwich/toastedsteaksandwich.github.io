@@ -1,5 +1,5 @@
 ---
-title: Fword CTF 2020 - Tornado Challenge Writeup
+title: 🌪️ Fword CTF 2020 - Tornado Challenge Writeup
 author: Ashiq Amien
 date: 2020-09-04 21:00:00 +0200
 categories: [CTF, Reverse Engineering]

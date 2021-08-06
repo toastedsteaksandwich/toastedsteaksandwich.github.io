@@ -1,5 +1,5 @@
 ---
-title: 0x41414141 CTF Blockchain Writeups 
+title: ⛓ 0x41414141 CTF Blockchain Writeups 
 author: Ashiq Amien
 date: 2021-01-31 21:45:00 +0200
 categories: [CTF, Blockchain]

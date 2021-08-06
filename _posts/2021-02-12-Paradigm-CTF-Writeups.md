@@ -1,5 +1,5 @@
 ---
-title: Paradigm CTF Writeups 
+title: 🧠 Paradigm CTF Writeups 
 author: Ashiq Amien
 date: 2021-02-12 22:45:00 +0200
 categories: [CTF, Blockchain]

@@ -8,4 +8,6 @@ title: About
 # MIT License
 ---
 
-This site is currently dedicated to my CTF writeups, training material, and other security-related content. 
+Hi, I'm Ashiq. I currently work at [iosiro](https://iosiro.com/) as a security consultant. 👨‍💻 In my free time, I occasionally play CTFs under my team name [toastedsteaksandwich](https://ctftime.org/team/120123/) and try my luck at [bug hunting](../external), usually looking for bugs in smart contracts.
+
+I'm always keen to chat about what's new in infosec/blockchain/DeFi - feel free to connect through [Twitter](https://twitter.com/AshiqAmien) :)

@@ -1,5 +1,5 @@
 ---
-title: Xmas CTF 2020 - Santa's ELF Holomorphing Machine Writeup
+title: 🎅 Xmas CTF 2020 - Santa's ELF Holomorphing Machine Writeup
 author: Ashiq Amien
 date: 2020-12-19 14:00:00 +0200
 categories: [CTF, Programming]

@@ -1,5 +1,5 @@
 ---
-title: DownUnder CTF 2020 - Flag Getter Challenge Writeup
+title: 🚩 DownUnder CTF 2020 - Flag Getter Challenge Writeup
 author: Ashiq Amien
 date: 2020-09-20 16:00:00 +0200
 categories: [CTF, Reverse Engineering]

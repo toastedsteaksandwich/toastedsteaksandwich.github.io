@@ -1,5 +1,5 @@
 ---
-title: DamCTF 2020 - Schlage Challenge Writeup
+title: 🔐 DamCTF 2020 - Schlage Challenge Writeup
 author: Ashiq Amien
 date: 2020-11-04 21:00:00 +0200
 categories: [CTF, Reverse Engineering]

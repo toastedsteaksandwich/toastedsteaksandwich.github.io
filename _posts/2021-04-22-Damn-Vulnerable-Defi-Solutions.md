@@ -1,5 +1,5 @@
 ---
-title: Damn Vulnerable DeFi Solutions
+title: 💰 Damn Vulnerable DeFi Solutions
 author: Ashiq Amien
 date: 2021-04-22 21:00:00 +0200
 categories: [Training, Smart Contract Hacking]
