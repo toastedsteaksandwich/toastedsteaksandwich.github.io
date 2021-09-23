@@ -9,10 +9,10 @@
   name: Home
   icon: "fas fa-home"
 -
-  name: External Content
+  name: Extras
   icon: "fas fa-globe-africa"
   path: tabs
-  url: external
+  url: extras
 -
   name: Categories
   icon: "fas fa-stream"
