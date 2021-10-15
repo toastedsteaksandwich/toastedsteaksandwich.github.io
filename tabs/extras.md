@@ -43,6 +43,7 @@ I've reported bugs that were confirmed by the respective team, but they've asked
 
 - Medium risk bug reported to and confirmed by *redacted project 1*.
 - High risk bug reported to and confirmed by *redacted project 2*.
+- High risk bug reported to and confirmed by *redacted project 3*.
 
 ---
 ## 🥊 Code 4rena contests
@@ -55,4 +56,9 @@ I occassionally participate in [code 4rena](https://code423n4.com/) contests, us
 
 ---
 ## ✍️ Introduction to smart contract bug hunting
-I wrote a blog post for [Hack South](https://hacksouth.africa/) to introduce smart contract bug hunting. This post can be found [here](https://hacksouth.africa/bug%20bounty/smart-contract-bug-hunting/). 
+I wrote a blog post for [Hack South](https://hacksouth.africa/) to introduce smart contract bug hunting. The post can be found [here](https://hacksouth.africa/bug%20bounty/smart-contract-bug-hunting/). 
+
+---
+## 🧑‍🏫 How to PoC your bug leads
+
+I wrote a blog post for [Immunefi] on how to write a PoC for any smart contract bug leads you've come across. The post can be found [here](https://medium.com/immunefi/how-to-poc-your-bug-leads-5ec76abdc1d8). 
