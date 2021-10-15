@@ -51,7 +51,7 @@ stream.once('open', function(fd) {
 
 This fetched and stored all of the n points in the following format:
 
-```java
+```
 [5,4][7,3][9,8][6,3]
 [8,4][8,9][7,5][9,9]
 [9,11][6,8][5,1][5,6]
