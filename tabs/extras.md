@@ -61,4 +61,4 @@ I wrote a blog post for [Hack South](https://hacksouth.africa/) to introduce sma
 ---
 ## 🧑‍🏫 How to PoC your bug leads
 
-I wrote a blog post for [Immunefi] on how to write a PoC for any smart contract bug leads you've come across. The post can be found [here](https://medium.com/immunefi/how-to-poc-your-bug-leads-5ec76abdc1d8). 
+I wrote a blog post for [Immunefi](https://immunefi.com/) on how to write a PoC for any smart contract bug leads you've come across. The post can be found [here](https://medium.com/immunefi/how-to-poc-your-bug-leads-5ec76abdc1d8). 
