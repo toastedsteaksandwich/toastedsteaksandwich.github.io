@@ -103,7 +103,7 @@ We can see that it's a [complex quadrilateral](https://en.wikipedia.org/wiki/Qua
 
 After some trial-and-error, the following sample artworks were created:
 
-![Desktop View](/assets/img/sample/flatn-blog/all.png)}
+![Desktop View](/assets/img/sample/flatn-blog/all.png)
 
 The final script can be found below:
 
