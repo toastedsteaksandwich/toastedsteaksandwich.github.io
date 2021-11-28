@@ -9,10 +9,10 @@
   name: Home
   icon: "fas fa-home"
 -
-  name: Extras
+  name: Research
   icon: "fas fa-globe-africa"
   path: tabs
-  url: extras
+  url: research
 -
   name: Categories
   icon: "fas fa-stream"

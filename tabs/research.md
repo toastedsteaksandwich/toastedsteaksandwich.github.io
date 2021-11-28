@@ -1,14 +1,14 @@
 ---
-title: Extras
+title: Research
 
-# The Extras page
+# The Research page
 # v2.0
 # https://github.com/cotes2020/jekyll-theme-chirpy
 # © 2017-2019 Cotes Chung
 # MIT License
 ---
 
-This page is for any content relevant to this blog, but does not have it's own blog post.
+This page documents some of the research work I've done, as well as some of the training content I've provided. Further information around most disclosed bugs detailed here can be found in it's summary. 
 
 
 ---
