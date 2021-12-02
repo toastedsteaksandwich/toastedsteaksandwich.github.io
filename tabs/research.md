@@ -37,10 +37,10 @@ The root of the critical bug was an uninitalized logic contract behing UUPS prox
 Technical details around this vulnerability can be found at the post by [iosiro](https://iosiro.com/blog/openzeppelin-uups-proxy-vulnerability-disclosure). The official OpenZeppelin postmortem be can be found [here](https://forum.openzeppelin.com/t/uupsupgradeable-vulnerability-post-mortem/15680).
 
 ---
-## 🧑‍🎨 Critical vulnerability disclosed to AxonsToken contract
-I disclosed a critical bug to [@abwagmi](https://twitter.com/abwagmi/status/1465866170599358465) regarding a buggy `transferFrom` function on their AxonsToken contract that could allow any user to steal the entire token supply. 
+## 🧑‍🎨 Critical vulnerability disclosed to [@abwagmi](https://twitter.com/abwagmi/)
+I disclosed a critical bug to [@abwagmi](https://twitter.com/abwagmi/status/1465866170599358465) regarding a buggy `transferFrom` function on their AxonsToken contract that could allow any user to steal the entire circulating token supply. 
 
-An overridden [`transferFrom` function in the `AxonsToken`](https://rinkeby.etherscan.io/address/0xd3cF1baab1F75d5bd86150963dda164c6E3E87A6#code#L687) allowed anyone to send tokens to the `auctionHouse` address, or pull tokens from the `auctionHouse` address. A malicious user could exploit this to send all user's tokens to the `auctionHouse` address and then pull it for themselves. The POC can be seen at the [following code sample](https://gist.github.com/AshiqAmien/470add84111539a724c35350dc30a49f).
+An overridden [`transferFrom` function in the `AxonsToken`](https://rinkeby.etherscan.io/address/0xd3cF1baab1F75d5bd86150963dda164c6E3E87A6#code#L687) allowed anyone to send tokens to the `auctionHouse` contract from any other account, or pull tokens from the `auctionHouse` contract without allowance. A malicious user could exploit this to send other user's tokens to the `auctionHouse` address and then pull it for themselves. The POC can be seen at the [following code sample](https://gist.github.com/AshiqAmien/470add84111539a724c35350dc30a49f).
 
 Big thanks [@abwagmi](https://twitter.com/abwagmi/status/1466343883755995139) for supporting whitehats! 
 
