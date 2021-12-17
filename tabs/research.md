@@ -52,7 +52,7 @@ I've reported bugs that were confirmed by the respective team, but they've asked
 - Medium risk bug reported to and confirmed by *redacted project 1*.
 - High risk bug reported to and confirmed by *redacted project 2*.
 - High risk bug reported to and confirmed by *redacted project 3*.
-- Low risk bug reported to and confirmed bt *redacted project 4*.
+- Low risk bug reported to and confirmed by *redacted project 4*.
 
 ---
 ### 🥊 Code 4rena contests
