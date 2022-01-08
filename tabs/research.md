@@ -41,8 +41,14 @@ An overridden [`transferFrom` function in the `AxonsToken`](https://rinkeby.ethe
 Big thanks [@abwagmi](https://twitter.com/abwagmi/status/1466343883755995139) for supporting whitehats! 
 
 ---
+### ⚡ Critical vulnerability disclosed to [pxMythics](https://twitter.com/pxmythicsnft/)
+I disclosed a critical bug to [pxMythics](https://twitter.com/pxmythicsnft/) regarding an access control vulnerability that could lead to permanent bricking of mint-related functions across two contracts.
+
+The [Genesis](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code) and [GenesisSupply](https://rinkeby.etherscan.io/address/0x81360eDEF3b9F3639fA60639729881Aba9Fe29B1#code) contracts contained mint and mint-related functions such as the  [mintWhitelist](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L141) function and the [airdrop](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L120) function. These functions relied on the mint state being [closed or active](https://rinkeby.etherscan.io/address/0x81360eDEF3b9F3639fA60639729881Aba9Fe29B1#code#F1#L132), with the Genesis contract owner having [functionality to change the mint state](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L87) as needed. However, both contracts contained an external unprotected [_setMintState](https://rinkeby.etherscan.io/address/0x81360eDEF3b9F3639fA60639729881Aba9Fe29B1#code#F3#L13) function that allowed anyone to update the mint state. Moreover, anyone could change the state to `Finalized`, which [bricks the aforementioned](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L154) [mint-related functions](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L127) and [prevents the mint state from being updated](https://rinkeby.etherscan.io/address/0x81360eDEF3b9F3639fA60639729881Aba9Fe29B1#code#F1#L124) further.
+
+---
 ### 🧪 High risk vulnerability disclosed to DeFi protocol Alchemix
-I disclosed an access-control bug to The future yield tokenization protocol [Alchemix](https://alchemix.fi/). Technical details around this vulnerability can be found at the post by [iosiro](https://iosiro.com/blog/high-risk-vulnerability-disclosed-to-alchemix) and [Immunefi](https://medium.com/immunefi/alchemix-access-control-bug-fix-debrief-a13d39b9f2e0).
+I disclosed an access-control bug to future yield tokenization protocol [Alchemix](https://alchemix.fi/). Technical details around this vulnerability can be found at the post by [iosiro](https://iosiro.com/blog/high-risk-vulnerability-disclosed-to-alchemix) and [Immunefi](https://medium.com/immunefi/alchemix-access-control-bug-fix-debrief-a13d39b9f2e0).
 
 ---
 ### 🕵️ Undisclosed vulnerabilities
