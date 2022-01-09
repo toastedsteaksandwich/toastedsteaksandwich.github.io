@@ -10,17 +10,17 @@ title: Research and Training
  
 ## <u>Vulnerability disclosures</u>
 
-### 🛹 Critical vulnerability disclosed to lending protocol 88mph
+### [🛹 Critical vulnerability disclosed to lending protocol 88mph](#-critical-vulnerability-disclosed-to-lending-protocol-88mph)
 I disclosed a critical bug to the fixed-rate lending protocol [88mph](https://88mph.app/) and helped rescue over $6.5m. Technical details around this vulnerability can be found at the posts by [iosiro](https://iosiro.com/blog/88mph-bug-bounty-post-mortem) and [Immunefi](https://medium.com/immunefi/88mph-function-initialization-bug-fix-postmortem-c3a2282894d3).
 
 
 ---
-### 🧱 Critical vulnerability disclosed to Polygon
+### [🧱 Critical vulnerability disclosed to Polygon](#-critical-vulnerability-disclosed-to-polygon)
 I disclosed a denial-of-service bug to [Polygon](https://polygon.technology/) affecting their [`StakeManagerProxy`](https://etherscan.io/address/0x5e3ef299fddf15eaa0432e6e66473ace8c13d908) smart contract and its dependent contracts. Technical details around this vulnerability can be found at the post by [iosiro](https://iosiro.com/blog/temporary-denial-of-service-vulnerability-disclosed-to-and-remediated-by-polygon) and [Polygon](https://hackmd.io/SoItk4zvTDuJ2Rio5Byu_w).
 
 ---
 
-### 🏌️ Critical vulnerability disclosed to four DeFi/NFT projects and escalated to OpenZeppelin
+### [🏌️ Critical vulnerability disclosed to four DeFi/NFT projects and escalated to OpenZeppelin](#️-critical-vulnerability-disclosed-to-four-definft-projects-and-escalated-to-openzeppelin)
 I disclosed a critical bug involving to four DeFi/NFT projects, and prevented the following TVLs (>$50m) from permanent hack damage:
 
 - KeeperDAO: ~$44m worth of tokens 
@@ -33,7 +33,7 @@ The root of the critical bug was an uninitalized logic contract behind a UUPS pr
 Technical details around this vulnerability can be found at the post by [iosiro](https://iosiro.com/blog/openzeppelin-uups-proxy-vulnerability-disclosure). The official OpenZeppelin postmortem be can be found [here](https://forum.openzeppelin.com/t/uupsupgradeable-vulnerability-post-mortem/15680).
 
 ---
-### 🧑‍🎨 Critical vulnerability disclosed to [@abwagmi](https://twitter.com/abwagmi/)
+### [🧑‍🎨 Critical vulnerability disclosed to @abwagmi](#-critical-vulnerability-disclosed-to-abwagmi)
 I disclosed a critical bug to [@abwagmi](https://twitter.com/abwagmi/status/1465866170599358465) regarding a buggy `transferFrom` function on their AxonsToken contract that could allow any user to steal the entire circulating token supply. 
 
 An overridden [`transferFrom` function in the `AxonsToken`](https://rinkeby.etherscan.io/address/0xd3cF1baab1F75d5bd86150963dda164c6E3E87A6#code#L687) allowed anyone to send tokens to the `auctionHouse` contract from any other account, or pull tokens from the `auctionHouse` contract without allowance. A malicious user could exploit this to send other user's tokens to the `auctionHouse` address and then pull it for themselves. The POC can be seen at the [following code sample](https://gist.github.com/AshiqAmien/470add84111539a724c35350dc30a49f).
@@ -41,7 +41,7 @@ An overridden [`transferFrom` function in the `AxonsToken`](https://rinkeby.ethe
 Big thanks [@abwagmi](https://twitter.com/abwagmi/status/1466343883755995139) for supporting whitehats! 
 
 ---
-### ⚡ Critical vulnerability disclosed to [pxMythics](https://twitter.com/pxmythicsnft/)
+### [⚡ Critical vulnerability disclosed to pxMythics](#-critical-vulnerability-disclosed-to-pxmythics)
 I disclosed a critical bug to [pxMythics](https://twitter.com/pxmythicsnft/) regarding an access control vulnerability that could lead to permanent bricking of mint-related functions across two contracts.
 
 The [Genesis](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code) and [GenesisSupply](https://rinkeby.etherscan.io/address/0x81360eDEF3b9F3639fA60639729881Aba9Fe29B1#code) contracts contained mint and mint-related functions such as the  [mintWhitelist](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L141) function and the [airdrop](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L120) function. These functions relied on the mint state being [closed or active](https://rinkeby.etherscan.io/address/0x81360eDEF3b9F3639fA60639729881Aba9Fe29B1#code#F1#L132), with the Genesis contract owner having [functionality to change the mint state](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L87) as needed. However, both contracts contained an external unprotected [_setMintState](https://rinkeby.etherscan.io/address/0x81360eDEF3b9F3639fA60639729881Aba9Fe29B1#code#F3#L13) function that allowed anyone to update the mint state. Moreover, anyone could change the state to `Finalized`, which [bricks the aforementioned](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L154) [mint-related functions](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa680a86F003C34#code#F1#L127) and [prevents the mint state from being updated](https://rinkeby.etherscan.io/address/0x81360eDEF3b9F3639fA60639729881Aba9Fe29B1#code#F1#L124) further.
@@ -49,11 +49,11 @@ The [Genesis](https://rinkeby.etherscan.io/address/0xa305F7078c8b2F9F95205e272aa
 Many thanks to the [pxMythics](https://twitter.com/pxmythicsnft/) team for supporting whitehats! 
 
 ---
-### 🧪 High risk vulnerability disclosed to DeFi protocol Alchemix
+### [🧪 High risk vulnerability disclosed to Alchemix](#-high-risk-vulnerability-disclosed-to-alchemix)
 I disclosed an access-control bug to future yield tokenization protocol [Alchemix](https://alchemix.fi/). Technical details around this vulnerability can be found at the post by [iosiro](https://iosiro.com/blog/high-risk-vulnerability-disclosed-to-alchemix) and [Immunefi](https://medium.com/immunefi/alchemix-access-control-bug-fix-debrief-a13d39b9f2e0).
 
 ---
-### 🕵️ Undisclosed vulnerabilities
+### [🕵️ Undisclosed vulnerabilities](#-undisclosed-vulnerabilities)
 
 I've reported bugs that were confirmed by the respective team, but they've asked to redact the bug details in the interim. If this changes in the future, I'll update the list below and include the details once I have permission.
 
@@ -64,7 +64,7 @@ I've reported bugs that were confirmed by the respective team, but they've asked
 - Critical bug reported to and confirmed by *redacted project 5*.
 
 ---
-### 🥊 Code 4rena contests
+### [🥊 Code 4rena contests](#-code-4rena-contests)
 I occassionally participate in [code 4rena](https://code423n4.com/) contests, usually quite loosely. You can find my progress on the [leaderboard](https://code423n4.com/leaderboard) under the alias `toastedsteaksandwich`. I've submitted at least one valid issue to the following contests:
 
 - [Wild Credit](https://code423n4.com/reports/2021-07-wildcredit/)
@@ -77,10 +77,10 @@ I occassionally participate in [code 4rena](https://code423n4.com/) contests, us
 
 ## <u>Training materials</u>
 
-### ✍️ Introduction to smart contract bug hunting
+### [✍️ Introduction to smart contract bug hunting](#-introduction-to-smart-contract-bug-hunting)
 I wrote a blog post for [Hack South](https://hacksouth.africa/) to introduce smart contract bug hunting. The post can be found [here](https://hacksouth.africa/bug%20bounty/smart-contract-bug-hunting/). 
 
 ---
-### 🧑‍🏫 How to PoC your bug leads
+### [🧑‍🏫 How to PoC your bug leads](#-how-to-poc-your-bug-leads)
 
 I wrote a blog post for [Immunefi](https://immunefi.com/) on how to write a PoC for any smart contract bug leads you've come across. The post can be found [here](https://medium.com/immunefi/how-to-poc-your-bug-leads-5ec76abdc1d8). 
