@@ -53,6 +53,11 @@ Many thanks to the [pxMythics](https://twitter.com/pxMythicsNFT/status/148028521
 I disclosed an access-control bug to future yield tokenization protocol [Alchemix](https://alchemix.fi/). Technical details around this vulnerability can be found at the post by [iosiro](https://iosiro.com/blog/high-risk-vulnerability-disclosed-to-alchemix) and [Immunefi](https://medium.com/immunefi/alchemix-access-control-bug-fix-debrief-a13d39b9f2e0).
 
 ---
+### [🌀 High risk vulnerability disclosed to Ondo Finance](#-high-risk-vulnerability-disclosed-to-ondo-finance)
+I disclosed a potential token theft bug to DeFi protocol [Ondo Finance](https://ondo.finance/). The exploit relied on a feature that was not live, so no actual user funds were at risk. Technical details around this vulnerability can be found at the post by [iosiro](https://iosiro.com/blog/high-risk-vulnerability-disclosed-to-ondo-finance).
+
+
+---
 ### [🕵️ Undisclosed vulnerabilities](#-undisclosed-vulnerabilities)
 
 I've reported bugs that were confirmed by the respective team, but they've asked to redact the bug details in the interim. If this changes in the future, I'll update the list below and include the details once I have permission.
@@ -71,6 +76,7 @@ I occassionally participate in [code 4rena](https://code423n4.com/) contests, us
 - [Based Loans](https://code423n4.com/reports/2021-04-basedloans/)
 - [Vader Protocol](https://code423n4.com/reports/2021-04-vader/)
 - [Visor Finance](https://code423n4.com/reports/2021-05-visorfinance/)
+- [Streaming Protocol](https://code4rena.com/reports/2021-11-streaming)
 
 ---
 
