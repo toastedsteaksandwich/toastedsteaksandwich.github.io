@@ -95,3 +95,16 @@ I wrote a blog post for [Immunefi](https://immunefi.com/) on how to write a PoC 
 ### [🤸‍♀️ Getting started with smart contract bug bounty](#-getting-started-with-smart-contract-bug-bounty)
 
 I wrote a blog post for [YesWeHack](https://www.yeswehack.com/) on getting started with smart contract bug bounty. The post can be found [here](https://blog.yeswehack.com/yeswerhackers/getting-started-smart-contract-bug-bounty/). 
+
+---
+
+## <u>Other</u>
+
+### [😇 2022 Underhanded Solidity Contest](#-2022-underhanded-solidity-contest)
+
+I entered the [2022 Underhanded Solidity Competition](https://underhanded.soliditylang.org/). My submission was based on Dedaub's vulnerability disclosure around [phantom functions](https://media.dedaub.com/phantom-functions-and-the-billion-dollar-no-op-c56f062ae49f). My final submission can be found [here](https://github.com/ethereum/solidity-underhanded-contest/tree/master/2022/submissions_2022/submission2_Ashiq).
+
+---
+### [🤓 yAcademy Block III](#-yacademy-block-iii)
+
+I was selected to participate in [Block III](https://medium.com/yacademyblog/blocks-ii-iii-retrospective-2badd879b70e) of [yAcademy](https://yacademy.dev/). I worked along side other fellows to discuss and report bugs affecting in-scope codebases.
