@@ -13,6 +13,8 @@ title: Research and Training
 ### [🛹 Critical vulnerability disclosed to lending protocol 88mph](#-critical-vulnerability-disclosed-to-lending-protocol-88mph)
 I disclosed a critical bug to the fixed-rate lending protocol [88mph](https://88mph.app/) and helped rescue over $6.5m. Technical details around this vulnerability can be found at the posts by [iosiro](https://iosiro.com/blog/88mph-bug-bounty-post-mortem) and [Immunefi](https://medium.com/immunefi/88mph-function-initialization-bug-fix-postmortem-c3a2282894d3).
 
+This bug was also eligble for the Founders Bounty, which included an $ARMOR token bonus, as well as the choice of my own tattoo on the [EaseDeFi](https://twitter.com/EaseDeFi) co-founder [Robert Forster](https://twitter.com/RobertMCForster). The tattoo was easily the most unique prize I've ever received, and can be [seen here!](https://twitter.com/RobertMCForster/status/1475869453556408325)
+
 
 ---
 ### [🧱 Critical vulnerability disclosed to Polygon](#-critical-vulnerability-disclosed-to-polygon)
@@ -92,9 +94,14 @@ I wrote a blog post for [Hack South](https://hacksouth.africa/) to introduce sma
 I wrote a blog post for [Immunefi](https://immunefi.com/) on how to write a PoC for any smart contract bug leads you've come across. The post can be found [here](https://medium.com/immunefi/how-to-poc-your-bug-leads-5ec76abdc1d8). 
 
 ---
-### [🤸‍♀️ Getting started with smart contract bug bounty](#-getting-started-with-smart-contract-bug-bounty)
+### [🤸‍♀ Getting started with smart contract bug bounty](#-getting-started-with-smart-contract-bug-bounty)
 
 I wrote a blog post for [YesWeHack](https://www.yeswehack.com/) on getting started with smart contract bug bounty. The post can be found [here](https://blog.yeswehack.com/yeswerhackers/getting-started-smart-contract-bug-bounty/). 
+
+---
+### [🗣 BSides Cape Town 2022 Presentation](#-bsides-cape-town-2022-presentation)
+
+I spoke at [BSides Cape Town 2022](https://twitter.com/BSidesCapeTown/status/1599019367856906241?cxt=HHwWgoCloZTp7bAsAAAA) about bricking smart contract proxies. The live recording can be found [here](https://www.youtube.com/live/fQBh_7i8R84?feature=share&t=16342).
 
 ---
 
