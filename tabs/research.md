@@ -94,7 +94,7 @@ I wrote a blog post for [Hack South](https://hacksouth.africa/) to introduce sma
 I wrote a blog post for [Immunefi](https://immunefi.com/) on how to write a PoC for any smart contract bug leads you've come across. The post can be found [here](https://medium.com/immunefi/how-to-poc-your-bug-leads-5ec76abdc1d8). 
 
 ---
-### [🤸‍ Getting started with smart contract bug bounty](#-getting-started-with-smart-contract-bug-bounty)
+### [🐛 Getting started with smart contract bug bounty](#-getting-started-with-smart-contract-bug-bounty)
 
 I wrote a blog post for [YesWeHack](https://www.yeswehack.com/) on getting started with smart contract bug bounty. The post can be found [here](https://blog.yeswehack.com/yeswerhackers/getting-started-smart-contract-bug-bounty/). 
 
