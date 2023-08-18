@@ -96,12 +96,17 @@ I wrote a blog post for [Immunefi](https://immunefi.com/) on how to write a PoC 
 ---
 ### [🐛 Getting started with smart contract bug bounty](#-getting-started-with-smart-contract-bug-bounty)
 
-I wrote a blog post for [YesWeHack](https://www.yeswehack.com/) on getting started with smart contract bug bounty. The post can be found [here](https://blog.yeswehack.com/yeswerhackers/getting-started-smart-contract-bug-bounty/). 
+I wrote a blog post for [YesWeHack](https://www.yeswehack.com/) on getting started with smart contract bug bounty. The post can be found [here](https://blog.yeswehack.com/yeswerhackers/getting-started-smart-contract-bug-bounty/).  
 
 ---
 ### [🗣 BSides Cape Town 2022 Presentation](#-bsides-cape-town-2022-presentation)
 
 I spoke at [BSides Cape Town 2022](https://twitter.com/BSidesCapeTown/status/1599019367856906241?cxt=HHwWgoCloZTp7bAsAAAA) about bricking smart contract proxies. The live recording can be found [here](https://www.youtube.com/live/fQBh_7i8R84?feature=share&t=16342).
+
+---
+### [👌 Decently Safe DeFi](#-decently-safe-defi)
+
+I created Decently Safe DeFi - a wargame to learn offensive security of DeFi smart contracts. It's based off the excellent Damn Vulnerable DeFi, check it out [here](https://decentlysafedefi.xyz/me/)! 
 
 ---
 
