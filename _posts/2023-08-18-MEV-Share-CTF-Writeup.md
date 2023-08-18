@@ -290,6 +290,10 @@ const childparams: BundleParams = {
 const childbundleResult = await mevShareClient.sendBundle(childparams);
 ```
 
+#### Side note
+
+I thought the way I solved flag 10 introduced a security issue for the protocol since if we know the gas price, we'd be able to frontrun transactions, which is voilation of the promise of using the protocol. But I double checked, mainnet event streams don't include the gas price and therefore is not an issue :)
+
 ### Final remarks
 
 Overall, there was a bunch of things that went wrong for me in this CTF:
