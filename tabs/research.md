@@ -120,3 +120,13 @@ I entered the [2022 Underhanded Solidity Competition](https://underhanded.solidi
 ### [🤓 yAcademy Block III](#-yacademy-block-iii)
 
 I was selected to participate in [Block III](https://medium.com/yacademyblog/blocks-ii-iii-retrospective-2badd879b70e) of [yAcademy](https://yacademy.dev/). I worked along side other fellows to discuss and report bugs affecting in-scope codebases.
+
+---
+### [✍️ OpenZeppelin Top 10 2022](#-openzeppelin-top-ten)
+
+I was invited to participate in the selection process of ranking the top 10 hacking techniques of 2022 in collaboration with OpenZeppelin. The final report can be [found here](https://www.openzeppelin.com/security-audits/top-hacking-techniques-2022).
+
+---
+### [🌉 Rewind 2023 Contest](#-rewind-contest)
+
+I won [first place](https://twitter.com/patrickd_de/status/1711873214291276226) in the [Rewind 2023 Contest](https://twitter.com/patrickd_de/status/1700101260823704008). This was a competitive technical writing contest that involved participants writing up the essense of the security incidents that took place over the year. The top 3 winners got to go to TrustX in Istanbul, and were invited to speak about one of the incidents they wrote up. I chose to talk about the Curve Finance Vyper exploit, the video is [available here](https://youtu.be/oArHeh4pdkg?si=l3FSDAL4O7Zx1mpm&t=338).
