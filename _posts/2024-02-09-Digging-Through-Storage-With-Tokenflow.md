@@ -11,7 +11,7 @@ math: true
 
 This blog post is written to demonstrate [TokenFlow's](https://tokenflow.live/) [Blockchain Datasets](https://tokenflow.live/products/blockchain-datasets/). I used the Ethereum and Optimism datasets to query historical storage of certain contracts during bug hunting and just odds-and-ends research. The info I'll be presenting here are missed bugs, or otherwise just interesting artefacts that I found on-chain.
 
-## Optimism's second `TransferOnion`
+## Optimism's second TransferOnion
 
 Last year I got an OP token airdrop from Optimism, and instead of needing to claim it with a merkle proof, the tokens landed up in my wallet without any interaction. I dug around to see how they did this, since I figured they wouldn't be manually transferring 1000s of tokens. The airdrop was facilitated with something they called a [`TransferOnion`](https://optimistic.etherscan.io/address/0x53466d3cabb3b59aa6065fd732672d68f191efc0#code). It works as follows:
 
