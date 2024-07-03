@@ -9,7 +9,7 @@ math: true
 
 # Intro
 
-[Searchers of Nottingham](https://nottingham.dragonfly.xyz/) was a MEV-style CTF game that ran for 2 weeks over 3 seasons. The game provided a market that allowed players to trade against each other with the aim to have the most of any one good according to the winning criteria. The game aimed to emulate what MEV searchers might need to do in a real market, by outpacing or exploiting other traders through various strategies. This blog post is a walkthrough of my attempt at the game over the 3 seasons :)   
+[Searchers of Nottingham](https://nottingham.dragonfly.xyz/) was a MEV-style CTF game that ran for 2 weeks over 3 seasons. The game provided a market that allowed players to trade against each other with the aim to have the most of any one good according to the winning criteria. The game aimed to emulate what MEV searchers might need to do in a real market, for example, by outpacing or exploiting other traders through various strategies. This blog post is a walkthrough of my attempt at the game over the 3 seasons :)   
 
 ![irl pic of searchers of nottingham](/assets/img/sample/nottingham-blog-post/intro.png)
 
@@ -25,16 +25,16 @@ To start, we're given a few sample agents to play around with. For example, the 
 
 ![GreedyFrontRunner](/assets/img/sample/nottingham-blog-post/1.png)
 
-Let's get some intution of how this agent works by looking at the graph and a few rounds of the match. At some point, there's a spike of the number of tomatoes bought. This is kept consistent afterwards until the 32 rounds are done. At round 22, my blind bid wins and I buy all the tomatoes 🍅 I can by selling my other goods, and I do this before everyone else to get the best price (naively). Intuitively, it seems like being the block builder is powerful and worth bidding a large amount of gold. More importantaly, gold is *not* important for the winning criteria, so it makes sense to get rid of it anyway. 
+The graph gives us some intution about how the matches progressed in the game. At some point, there's a spike of the number of tomatoes bought. This is kept consistent afterwards until the 32 rounds are done. At round 22, my blind bid wins and I buy all the tomatoes I can by selling my other goods, and I do this before everyone else in an attempt to get the best price. Intuitively, it seems like being the block builder is powerful and worth bidding a large amount of gold. More importantaly, gold is *not* part of the winning criteria, so it makes sense to get rid of it anyway. 
 
 ### The first strat 
 
 After getting some intuition, some possible first strategies come to mind:
 
-- Get much gold as possible, and once we have enough, bid a lot to buy 64 units of something. (called goldmaxxing)
-- Get a lot of gold, and bid+frontrun when someone else is close to winning.
-- Consolidate into one good, and if I can get more of a single good in the next round, swap it. (e.g. I have 30 tomatoes, but if I swap I can get 32 bread. Remember, we need the most or 64 of any one good).
-- Other agents aren't bidding at all. Bid at least 1 wei. If they start bidding 1 wei, start bidding 2. If we're builder, settle user bundles in a way that gives us the most goods, not just first or last.
+- Get much gold as possible, and once we have enough, buy 64 units of something (called goldmaxxing)
+- Get a lot of gold, and bid+frontrun when someone else is close to winning
+- Consolidate into one good, and if I can get more of a single good in the next round, swap it (e.g. I have 30 tomatoes, but if I swap I can get 32 bread. Remember, we need the most or 64 of any one good)
+- If other agents aren't bidding at all, bid at least 1 wei. If they start bidding 1 wei, start bidding 2. We can only know their bids from previous games, but games run every 2 hours so we can adjust as needed. 
 
 I landed on using the first idea:
 
@@ -93,32 +93,32 @@ This had some success- we can see the graph hockey stick up at the end, where my
 
 ![hockey stick up](/assets/img/sample/nottingham-blog-post/2.png)
 
-But it also had some misses, where the agent sold it's goods when it didn't hit the 64 mark after frontrunning:
+But it also had some misses, where the agent sold it's goods when it didn't hit the 64 mark:
 
 ![front run again](/assets/img/sample/nottingham-blog-post/3.png)
 
-Why did this happen if we had a quote? It's important to remember that the bundle we craft in `createBundle` vs the actions in `buildBlock` are under very different contexts. Any assumptions about the market can be skewed in bundle from `createBundle` if the builder places other transactions around our bundle. This is what happened in the above picture, where our `GAME.quoteSell(...)` call returned >65e18 when being crafted, however, we were frontrun when our blind bid wasn't high enough. If we're the builder, we have full context and control of the market for that block, besides needing to execute the user bundles. 
+Why did this happen if we had a quote of 64 units from the `GAME.quoteSell` function? It's important to remember that the bundle we craft in `createBundle` vs the actions in `buildBlock` are under different contexts. Any assumptions about the market in the `createBundle` function can be skewed if the builder places other transactions around our bundle. This is what happened in the above picture, where our `GAME.quoteSell` call returned >65e18 when being crafted, but instead we were frontrun and had a different output during bundle settlement. This happened since our blind bid wasn't high enough, and someone else was the builder. If we're the builder, we have full context and control of the market for that block, while needing to execute the user bundles. 
 
 ### The second strat
 
-This naturally leads into the next strategy, which came about on the last day of the season from another user. User aaa realized that being the builder allows us to sandwich another user's bundle:
+This leads into the next strategy, which came about on the last day of the season from another user. User `aaa` realized that being the builder allows us to sandwich another user's bundle:
 
 ![the first sandwich](/assets/img/sample/nottingham-blog-post/4.png)
 
-By inspecting the bundle contents and seeing what the user wants. By being the builder we can frontrun the trade, push the price of the target goods up (it's a constant product AMM, remember) and then backrun the trade for a reliable profit. In this picture, we can see that user aaa made a *free* profit of about 0.1 tomato and 0.1 fish. I say *free*, but of course you need to win the blind auction for builder rights. Compared to Uniswap V2, trades have no slippage tolerance, so you can sandwich another users trade with your entire balance.  
+Having builder rights allows us to inspect the bundle contents, and we can trade around the bundle (although not individual trades, since bundles are settled atomically). This means we can frontrun the trade, push the price of the target goods up and then backrun the trade for a reliable profit. In this picture, we can see that user `aaa` made a *free* profit of about 0.1 tomato and 0.1 fish from the sandwich. I say *free*, but of course you need to win the blind auction and pay gold for builder rights. Compared to Uniswap V2, trades have no slippage tolerance, so you can sandwich another users trade as far as you can afford.  
  
 When developing my second strategy, I aimed to be aggresive with my bidding strategy to try and always get builder rights so I could reliably profit from my sandwiches. I also tried to be aware of what other players were doing, e.g.:
 
-- merklejerk always bids half of their balance, so bid more than that
-- gyattmaster69 does not bid, so any bid beats that
-- student does not bid unless they're about to purchase 64 units of goods, and bids the remaining amount
-- gmluqa and guzus sells 5% of 2 non target goods and bids that for gold
-- aaa bids 60% of the sum total of the last trades into gold. The amount of goods traded into gold is 70% of the balance
+- `merklejerk` always bids half of their balance, so bid more than that
+- `gyattmaster69` does not bid, so any bid beats that
+- `student` does not bid unless they're about to purchase 64 units of goods, and bids the remaining amount
+- `gmluqa` and guzus sells 5% of 2 non target goods and bids that for gold
+- `aaa` bids 60% of the sum total of the last trades into gold. The amount of goods traded into gold is 70% of the balance
 
 So my strategy was as follows:
 
 - write a sandwich alg in `buildBlock`
-- bid more than half of merklrjerk's balance, and more than aaa's 60% of gold from 70% of their balance of goods
+- bid more than half of `merklejerk`'s balance, and more than `aaa`'s 60% of gold from 70% of their balance of goods
 - if we have enough gold, buy up to 64 units of a good and bid the balance of our portfolio
 
 ```javascript
@@ -161,25 +161,25 @@ for (uint8 playerIdx = 0; playerIdx < bundles.length; ++playerIdx) {
     ...
 ```
 
-Unfortunately, this wasn't enough to win. I bumped up to 71% and 81% on aaa's bids in an attempt to outpace their anticipated increase. What I didn't notice was that on the very last round before submissions closed, aaa already increased their bids and I didn't recalculate it. I'm fairly sure that with a higher increase my agent would have won, but at the same time, having too much gold to bid might have increased the number of rounds it'd take to buy 64 units of a good, so I can't be too sure. 
+Unfortunately, this wasn't enough to win. I bumped up to 71% and 81% on `aaa`'s bids in an attempt to outpace their anticipated increase. What I didn't notice was that on the very last round before submissions closed, `aaa` already increased their bids and I didn't recalculate it. I'm fairly sure that with a higher increase my agent would have won, but at the same time, bidding too much gold might have increased the number of rounds it'd take to buy 64 units of a good, so I can't be too sure. 
 
 ## Season 2 - Salmonella 
 
-At the beginning of season 2 I was a bit unsure about how the game would progress, what else could there be besides goldmaxxing and sandwiching? It wasn't long until I noticed some interesting my strategy had a major flaw:
+At the beginning of season 2 I was a bit unsure about how the game would progress, what else could there be besides goldmaxxing and sandwiching? It wasn't long until I noticed some interesting my strategy had a clear flaw:
 
 ![the sandwich is a mess](/assets/img/sample/nottingham-blog-post/5.png)
 
-If you look closely, I actually lose gold on my sandwich trade, something that should never happen. As I was figuring out how to fix it, another meta was coming up:
+If you look closely, I actually lose gold on my sandwich trade, something that should never happen since we have full control as the builder. As I was figuring out how to fix it, another meta was coming up:
 
 ![salmonella sandwich](/assets/img/sample/nottingham-blog-post/6.png)
 
-I noticed that several bids were failing whenever `plotchy` was involved. Somehow, this user caused bids to fail. This means that there was a revert in the `buildBlock` function, either from an underflow or for some other reason, and `plotchy` was able to force it. And even while I was investigating this, a third meta came up:
+I noticed that several bids were failing whenever `plotchy` was involved. Somehow, this user caused bids to fail. This means that there was a revert in the `buildBlock` function, either from an underflow or for some other reason, and `plotchy` was able to force it. And even while I was investigating this, a third trend came up:
 
 ![anti club sandwich sandwich club](/assets/img/sample/nottingham-blog-post/8.png)
 
-Here, `legion2002` was an active sandwicher, but did no trades when not granted builder rights. Of course, one great way to fight off someone frontrunning and backrunning your trades is to have none at all. This strategy allows a user to retain all of their goods until they're granted builder rights at a later round. Since they retain more goods, their bid can be higher and will gradually get higher since they simulate larger and larger trades for themself when deciding how much to bid.
+Here, `legion2002` was an active sandwicher, but did no trades when not block building. Of course, one great way to fight off someone frontrunning and backrunning your trades is to have none at all. This strategy allows a user to retain all of their goods until they're granted builder rights at a later round. Since they retain more goods, their bid can be higher and will gradually get higher since they simulate larger and larger trades for themself when deciding how much to bid.
 
-At this point, I realized that there is no one set-and-forget agent. This game, and I guess actual on-chain MEV, is about adapting to the current meta and always trying to one-up your opponenents. Users were getting exploited, sandwichers were no longer making money from certain users, none of which was present in season 1.
+At this point, I realized that there is no 'set-and-forget' agent. This game, and I guess actual on-chain MEV, is about adapting to the current meta and always trying to one-up your opponents ([this is a real example](https://twitter.com/tonyke_bot/status/1808333393949872272) that came up while I was writing this post). In this case, users were getting exploited, sandwichers were no longer making money from certain users, none of which was present in season 1.
 
 ### The third strat
 
@@ -187,13 +187,13 @@ My third strategy was fixing up some of the mistakes from the previous agent (lo
 
 At the end, I had the following:
 
-- Improved sandwiching that tries to follow all directions of the trade e.g. if some goes to gold, follow that as well instead of taking the highest direction trade from before.
-- Sell all goods for gold in the first couple rounds since goods go for highest in the first rounds. This is to have bidding power later on.
+- Improved sandwiching that tries to follow all directions of the trade e.g. if some goes to gold, follow that as well instead of taking the highest direction trade from before
+- Sell all goods for gold in the first couple rounds since goods go for highest in the first rounds (this is to have bidding power later on)
 - Follow the rules of the `simpleBuyer` agent after the rounds of selling for gold are done
 - Cap the bid at the gold balance to prevent underflows
-- Continue to try and buy up to 64 units and bid the remainder.
+- Continue to try and buy up to 64 units and bid the remainder
 
-Unfortunately, this wasn't enough either, and I landed up in 4th place. From what I can tell, the winner `legion2002` used aggressive bidding to sandwich when block building, as well as submitting empty bundles when not block building, to win first place. Being builder allowed them to exploit users for profit, while retaining the profits in no-op trades.
+Unfortunately, this wasn't enough, and I landed up in 4th place. From what I can tell, the winner `legion2002` used aggressive bidding to sandwich when block building, as well as submitting empty bundles when not block building, to win first place. Being builder allowed them to exploit users for profit, while retaining the profits in no-op trades.
 
 ## Season 3 - Leaky liquidity
 
@@ -204,7 +204,7 @@ Season 3 introduced a change where the market was seeded with a higher liquidity
 - try to poison user bundles during the simulation stage? (the simulation stage is when user block building is simulated to get the bids for the blind auction)
 - figure out if we can construct our bundle in a way that minimizes the amount of profit a sandwicher can take (e.g. 75% into target good, 25% into gold)
 
-The first two items were straightforwad to implement. I then tried to do the fourth point, and spent sometime on-paper to figure out how to construct such a bundle. After a long time, I realized I rabbitholed into nothing- our bundles do *not* have access to the current market. Bundles are submitted in this form:
+The first two items were straightforwad to implement. I then tried to do the fourth point, and spent sometime on-paper to figure out how to construct such a bundle. After a long time, I realized I rabbitholed into nothing- our bundles do *not* have access to the current market. That's because bundles are submitted in this form:
 
 ```javascript
 /// A structure representing a sell order.
@@ -217,7 +217,7 @@ struct SwapSell {
     uint256 fromAmount;
 }
 ```
-This means that we can't pass in some function call into our bundle to figure out how much to buy and sell based on the current reserves, it needs to be some uint. I eventually just dropped this since I was running out of time. I played around with bundle poisoning and submitted bundles with an invalid `toAssetIdx`, as follows:
+This means that we can't pass in some function call into our bundle to figure out how much to buy and sell based on the current reserves, it needs to be some `uint256`. I eventually just dropped this since I was running out of time. I played around with bundle poisoning and submitted bundles with an invalid `toAssetIdx`, as follows:
 
 ```javascript
 bundle.swaps[i] = SwapSell({
@@ -234,7 +234,7 @@ I didn't want to leave this ""alpha"" on the table so I switched back to another
 
 ### The final strat
 
-Towards the end of the game it was clear that were 2 main approaches to take- take the riskier approach to have more gold and aim to get 64 units quickly, or slowly grow your holdings up to 64. Since there were a lot of players going with the first approach, I tried to go in the middle of maintaining some target asset and if I have enough, buy up to 64. I wanted to consistently be ranked higher and hopefully win games occasionally, instead of win sometimes and have no points otherwise. In the end, I had an agent that did the following:
+Towards the end of the game it was clear that were 2 main approaches to take- take the riskier approach to have more gold and aim to get 64 units quickly, or slowly grow your holdings up to 64. Since there were a lot of players going with the first approach, I tried to go in the middle of maintaining some target asset and if I have enough, buy up to 64. I wanted to consistently be ranked higher and win some games occasionally, instead of win sometimes and have no points otherwise. In the end, I had an agent that did the following:
 
 - Submit bundles that sell 85% of everything for some target asset, and 15% for gold
 - Sandwich other users if I become the block builder
@@ -245,13 +245,13 @@ Towards the end of the game it was clear that were 2 main approaches to take- ta
 - If I don't have 64 of a single good, sell 10% of my max good balance for gold, and bid between 1-15% of my gold balance if the game is less than 15 rounds.
     - If the game is passed 15 rounds, sell only 5% of the max good balance but bid 40-60% of my gold balance. This is to bid more gold while retaining more of our max good while the game approaches the end.
 
-Unfortunately, this wasn't enough and again landed me in 4th place. My bidding strategy accounted for my whole balance and not just sandwich profits as it did in previous versions of my agent, which lead me to leak of a lot of gold when trying to sandwich empty bundles. User `cvpfus` who came first used empty bundles, and an aggresive bidding strategy when coming close to a win. ggwp!! 
+Unfortunately, this wasn't enough and again landed me in 4th place. My bidding strategy accounted for my whole balance and not just sandwich profits as it did in previous versions of my agent, which lead me to leak of a lot of gold when trying to sandwich empty bundles. User `cvpfus` who came first used empty bundles, and an aggresive bidding strategy when coming close to a win. ggwp! 🔥
 
 ![final results](/assets/img/sample/nottingham-blog-post/10.png)
 
 ## Conclusion
 
-Overall this was a super fun CTF/game, and it's nothing like I've played before. It was definitely challenging in a different way compared to other CTFs and you're forced to adapt. I struggled a bit with testing locally vs testing in the arena since you can't write other user's agents during the season (unless you're a cracked anon) and there were still some things I didn't get to because of time. Either way, I had a lot of fun and learnt a lot :)
+Overall this was a super fun CTF/game, and it's nothing like I've played before. It was definitely challenging in a different way compared to other CTFs and you're forced to adapt. I struggled a bit with testing locally vs testing in the arena since you can't write other user's agents during the season (unless you're a cracked anon) and there were still some things I didn't get to because of time. I had a lot of fun and learnt a lot :)
 
 
-> I have to give a special mention about the design and security of the game- I spent a good amount of time looking around at the contracts to see where things might go wrong in the simulation, blind auction, etc. and everything was really well done. Kudos [merklejerk](https://twitter.com/merklejerk) and to the peeps at [Dragonfly](https://twitter.com/dragonfly_xyz)! `>|<`
+> I have to give a special mention about the design and security of the game- I spent a good amount of time looking around at the contracts to see where things might go wrong in the simulation, blind auction, etc. and everything was really well done as far as I could tell. Kudos [merklejerk](https://twitter.com/merklejerk) and to the peeps at [Dragonfly](https://twitter.com/dragonfly_xyz)! `>|<`
