@@ -130,3 +130,8 @@ I was invited to participate in the selection process of ranking the top 10 hack
 ### [🌉 Rewind 2023 Contest](#-rewind-contest)
 
 I won [first place](https://twitter.com/patrickd_de/status/1711873214291276226) in the [Rewind 2023 Contest](https://twitter.com/patrickd_de/status/1700101260823704008). This was a competitive technical writing contest that involved participants writing up the essense of the security incidents that took place over the year. The top 3 winners got to go to TrustX in Istanbul, and were invited to speak about one of the incidents they wrote up. I chose to talk about the Curve Finance Vyper exploit, the video is [available here](https://youtu.be/oArHeh4pdkg?si=l3FSDAL4O7Zx1mpm&t=338).
+
+---
+### [🎆 OpenZeppelin Top 10 2023](#-openzeppelin-top-ten-2023)
+
+I was re-invited to participate in the selection process of ranking the top 10 hacking techniques of 2023 in collaboration with OpenZeppelin. The final report can be [found here](https://blog.openzeppelin.com/top-10-blockchain-hacking-techniques-of-2023).

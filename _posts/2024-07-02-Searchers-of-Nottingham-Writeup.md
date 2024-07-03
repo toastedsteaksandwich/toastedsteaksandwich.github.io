@@ -39,14 +39,10 @@ After getting some intuition, some possible first strategies come to mind:
 I landed on using the first idea:
 
 ```javascript
-contract HockeyPlayer is BasePlayer {
-
-    function createBundle(uint8 /* builderIdx */)
+function createBundle(uint8 /* builderIdx */)
         public virtual override returns (PlayerBundle memory bundle)
     {
-
         bundle.swaps = new SwapSell[](MAX_SWAPS_PER_BUNDLE;
-
         for (uint8 assetIdx; assetIdx < ASSET_COUNT; ++assetIdx) {                    
                 uint256 bal = GAME.balanceOf(PLAYER_IDX, assetIdx);
                 bundle.swaps[assetIdx] = SwapSell({
@@ -68,26 +64,22 @@ contract HockeyPlayer is BasePlayer {
                     });   
                 break;
             }
-        }
-            
+        }            
     }
 
-    function buildBlock(PlayerBundle[] calldata bundles) public virtual override returns (uint256 goldBid)
-            
+    function buildBlock(PlayerBundle[] calldata bundles) public virtual override returns (uint256 goldBid)            
     { 
         //settle ours first
         for (uint8 playerIdx = 0; playerIdx < bundles.length; ++playerIdx) {
             if (playerIdx == PLAYER_IDX) {
                 GAME.settleBundle(playerIdx, bundles[playerIdx]);
             }            
-        }  
-        
+        }          
         goldBid += GAME.sell(
                     _getMaxGood(),
                     GOLD_IDX,
                     GAME.balanceOf(PLAYER_IDX, GOLD_IDX) * 1/100
-                ); 
-                  
+                );                   
         for (uint8 playerIdx = 0; playerIdx < bundles.length; ++playerIdx) {
             if (playerIdx == PLAYER_IDX) {
                 // Skip our bundle.
@@ -95,9 +87,7 @@ contract HockeyPlayer is BasePlayer {
             }
             GAME.settleBundle(playerIdx, bundles[playerIdx]);
         }                                
-    }    
-}
-
+    }   
 ```
 This had some success- we can see the graph hockey stick up at the end, where my agent bid aggresively:
 
@@ -132,47 +122,42 @@ So my strategy was as follows:
 - if we have enough gold, buy up to 64 units of a good and bid the balance of our portfolio
 
 ```javascript
-    ...
-    // sandwich everyone
-    for (uint8 playerIdx = 0; playerIdx < bundles.length; ++playerIdx) {        
-        if (playerIdx == PLAYER_IDX) {
-            // Skip our bundle.
-            continue;
-        }
-        
-        //get the most important asset in the bundle to sandwich
-        uint8 targetSandwichAsset;
-        uint256 targetToAmount;
-        for (uint256 curTx = 0; curTx < bundles[playerIdx].swaps.length; curTx++) {
-            SwapSell memory currentTx = bundles[playerIdx].swaps[curTx];
-            if(currentTx.toAssetIdx != 0){
-                //check which swap will give us the most out
-                if(GAME.quoteSell(currentTx.fromAssetIdx, currentTx.toAssetIdx, currentTx.fromAmount) > targetToAmount){
-                    targetToAmount = GAME.quoteSell(currentTx.fromAssetIdx, currentTx.toAssetIdx, currentTx.fromAmount);
-                    targetSandwichAsset = currentTx.toAssetIdx;
-                }
-            }                
-        }
-
-        //now, buy targetSandwichAsset with everything we have since we're only in gold
-        for (uint8 assetIdx; assetIdx < ASSET_COUNT; ++assetIdx) {                                        
-                GAME.sell(
-                assetIdx,
-                targetSandwichAsset,
-                GAME.balanceOf(PLAYER_IDX, assetIdx)
-                );  
-        }
-
-        GAME.settleBundle(playerIdx, bundles[playerIdx]);
-        
-        //now, sell everything back for gold                                                   
-        GAME.sell(
-            targetSandwichAsset,
-            GOLD_IDX,
-            GAME.balanceOf(PLAYER_IDX, targetSandwichAsset)
-        );  
-        
+...
+// sandwich everyone
+for (uint8 playerIdx = 0; playerIdx < bundles.length; ++playerIdx) {        
+    if (playerIdx == PLAYER_IDX) {
+        // Skip our bundle.
+        continue;
     }
+    //get the most important asset in the bundle to sandwich
+    uint8 targetSandwichAsset;
+    uint256 targetToAmount;
+    for (uint256 curTx = 0; curTx < bundles[playerIdx].swaps.length; curTx++) {
+        SwapSell memory currentTx = bundles[playerIdx].swaps[curTx];
+        if(currentTx.toAssetIdx != 0){
+            //check which swap will give us the most out
+            if(GAME.quoteSell(currentTx.fromAssetIdx, currentTx.toAssetIdx, currentTx.fromAmount) > targetToAmount){
+                targetToAmount = GAME.quoteSell(currentTx.fromAssetIdx, currentTx.toAssetIdx, currentTx.fromAmount);
+                targetSandwichAsset = currentTx.toAssetIdx;
+            }
+        }                
+    }
+    //now, buy targetSandwichAsset with everything we have since we're only in gold
+    for (uint8 assetIdx; assetIdx < ASSET_COUNT; ++assetIdx) {                                        
+            GAME.sell(
+            assetIdx,
+            targetSandwichAsset,
+            GAME.balanceOf(PLAYER_IDX, assetIdx)
+            );  
+    }
+    GAME.settleBundle(playerIdx, bundles[playerIdx]);    
+    //now, sell everything back for gold                                                   
+    GAME.sell(
+        targetSandwichAsset,
+        GOLD_IDX,
+        GAME.balanceOf(PLAYER_IDX, targetSandwichAsset)
+    );      
+}
     ...
 ```
 
