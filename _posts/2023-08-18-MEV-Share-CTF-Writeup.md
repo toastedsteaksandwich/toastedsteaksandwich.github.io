@@ -2,7 +2,7 @@
 title: 🤝 MEV-Share CTF Writeup
 author: Ashiq Amien
 date: 2023-08-18 15:50:00 +0200
-categories: [CTF, Flashbots]
+categories: [CTF, MEV]
 tags: ctf
 ---
 
