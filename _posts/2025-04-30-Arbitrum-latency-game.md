@@ -1,7 +1,7 @@
 ---
 title: 🏃💨 Playing Arbitrum's latency games for fun and profit
 author: Ashiq Amien
-date: 2025-04-19 17:15:00 +0200
+date: 2025-04-30 17:15:00 +0200
 categories: [Research, MEV]
 tags: research
 ---
@@ -57,7 +57,7 @@ I had a new direction: this meant re-architecting the bot to read the sequencer 
 
 I should note that by the time I found the Rust sequencer-client, I had *zero* experience with Rust and couldn't get to read anything from the feed out of the box. Moreover, once I could get it running, I noticed the feed was not printing nearly as many transactions as actually landed on-chain. Slowly but surely, by piecing together info from the [docs](https://docs.arbitrum.io/run-arbitrum-node/sequencer/read-sequencer-feed), with sufficient print statements to trace and help from Claude/ChatGPT, I landed on being able to read all txs as they were being sequenced:
 
-```Rust
+```java
 loop {        
     let data = receiver
         .recv()
@@ -117,7 +117,7 @@ loop {
 ```
 Now that txs were being read, I had to figure out which txs to backrun. Since I didn't want to involve poll RPC on each block to keep my performance high, I did some investigations and found the resulting txs that open the MEV opportunity. From here, it was a matter of reading the feed and matching the calldata + tx sender to some hard coded values:
 
-```Rust
+```java
 let decoded = data.messages[0].message.message.decode();        
         
 if let Some(DecodedMsg::DecodedBatch(ref transactions)) = decoded {
@@ -150,7 +150,7 @@ if let Some(DecodedMsg::DecodedBatch(ref transactions)) = decoded {
 
 Once a heuristic tx is identified, we need to send in our backrun tx to the sequencer as fast as possible. Again, with a fair dose of trial-and-error and help from AI chatbots, I managed to piece together the following:
 
-```Rust
+```java
 async fn send(&self, value: U256, market_address: Address) -> Result<SequencerResponse, Box<dyn Error>> {
     let mut nonce = self.nonce.lock().unwrap(); // Lock and access nonce    
     let func_signature = "backrun(address)".as_bytes();
