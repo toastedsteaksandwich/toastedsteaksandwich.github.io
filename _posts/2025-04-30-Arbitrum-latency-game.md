@@ -8,7 +8,7 @@ tags: research
 
 ## Intro
 
-Two days ago, Arbitrum [introduced a new transaction ordering policy called Timeboost](https://x.com/arbitrum/status/1912945720237367449). Before Timeboost, transactions were ordered first-come-first-serve (FCFS), leading to searchers racing to minimize latency by fractions of a second to land their tx first to capture whatever MEV they've detected. This blog post details my experience in attempting to capture (long-tail) MEV and participating in this latency game. 
+A few days ago, Arbitrum [introduced a new transaction ordering policy called Timeboost](https://x.com/arbitrum/status/1912945720237367449). Before Timeboost, transactions were ordered first-come-first-serve (FCFS), leading to searchers racing to minimize latency by fractions of a second to land their tx first to capture whatever MEV they've detected. This blog post details my experience in attempting to capture (long-tail) MEV and participating in this latency game. 
 
 ### Background
 
