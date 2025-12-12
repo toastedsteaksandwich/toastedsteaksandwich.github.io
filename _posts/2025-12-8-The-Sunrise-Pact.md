@@ -42,7 +42,7 @@ The part we're interested in is the hourly `gm()`/`sunrise()` functions, i.e. th
 - The gas fees of the call are low on Arbitrum during normal traffic (~$0.01-$0.15), but could increase to several dollars during times of congestion.
 - The rewards from the call starts at 1 Bean and compounds 1.0201% every 2 seconds for 5 minutes for a max reward of ~19.79 Beans, as follows:
 
-$$ y_1 = (1.0201)^{x/2}, cap = 19.788466 $$
+$$ y = (1.0201)^{x/2} $$
 
 ![Desktop View](/assets/img/sample/sunrise-pact/graph2.png)
 
