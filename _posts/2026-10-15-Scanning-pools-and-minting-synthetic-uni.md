@@ -6,13 +6,13 @@ categories: [Research, MEV]
 tags: research
 ---
 
-![scale](/assets/img/sample/tokenjar/scale.JPG)
+![scale](/assets/img/sample/tokenjar/scale-roots.JPG)
 
 ## Intro
 
 I thought I found easy money that everyone else had missed. A few failed attempts later, I just wanted my own money back.
 
-A few weeks ago I finished up the [Wintermute Alpha challenges](https://ashiq.co.za/posts/Wintermute-Alpha-Solves/) and noticed they left some actual alpha in challenge 7, showing that the [XLayer TokenJar](https://www.oklink.com/x-layer/evm/address/0x8Dd8B6D56e4a4A158EDbBfE7f2f703B8FFC1a754) had real money just waiting to be claimed. I decided to look around at the other `TokenJar` implementations on other networks and saw that there was some easy money there too! At least, that's what I thought initially, only to fall into a very deep rabbit hole and stumble several times before landing an actual, profitable `TokenJar` capture.
+A few weeks ago I finished up the [Wintermute Alpha challenges](https://ashiq.co.za/posts/Wintermute-Alpha-Solves/) and noticed they left some actual alpha in challenge 7, showing that the [XLayer TokenJar](https://www.oklink.com/x-layer/evm/address/0x8Dd8B6D56e4a4A158EDbBfE7f2f703B8FFC1a754) had real money just waiting to be claimed. I decided to look around at the other `TokenJar` implementations on other networks and saw that there was some easy money there too! 
 
 **TL;DR**
 
@@ -61,7 +61,7 @@ An important point is that the current jar token balances are a lot less importa
 
 ## Tripping the wire
 
-After looking at the Wintermute TokenJar challenge, I got Codex to start evaluating jars on other networks. Immediately I spotted that the jar on BNB was worth more than the current UNI cost by several thousand dollars (!) and decided I needed to act urgently to claim the jar. The first hurdle became immediately clear: the [resource](https://bscscan.com/address/0xa59FfbB55D91Fc32b44A06F0b9cc6036a4afbcE2#code#F14#L13) required was [`nttSyntheticUni`](https://bscscan.com/address/0x06e8bdE95BE4ce5cB1134BD47aD18a79fFB35822), a [Wormhole](https://Wormhole.com/)-wrapped token representing UNI from Ethereum mainnet. This immediately changed the dynamics of the capture in ways I didn't fully realize at the time, with the most obvious consequence being that a flash-swap capture was not possible. Liquidity for this token existed on Ethereum, but it then needed to be bridged across to BNB, so there were just a handful of tokens that could actually capture the jar, none of which was for sale. Since the profit was sufficient to justify taking on the risk of being the required UNI, I decided I'd buy the UNI and bridge it across while Codex was preparing the contract to capture the jar and liquidate the proceeds. However, even bridging was not that simple. The [Wormhole bridge UI](https://portalbridge.com/) did not support this tx, so I needed a script to interact directly with the [`NttManager`](https://etherscan.io/address/0x6569925Aac77D6B8Bb085F31F9828ff80D5a0c44) to wrap my UNI, as follows:
+I spotted that the jar on BNB was worth more than the current UNI cost by several thousands of dollars (!) and decided I needed to act urgently to claim the jar. The first hurdle became immediately clear: the [resource](https://bscscan.com/address/0xa59FfbB55D91Fc32b44A06F0b9cc6036a4afbcE2#code#F14#L13) required was [`nttSyntheticUni`](https://bscscan.com/address/0x06e8bdE95BE4ce5cB1134BD47aD18a79fFB35822), a [Wormhole](https://Wormhole.com/)-wrapped token representing UNI from Ethereum mainnet. This immediately changed the dynamics of the capture in ways I didn't fully realize at the time, with the most obvious consequence being that a flash-swap capture was not possible. Liquidity for this token existed on Ethereum, but it then needed to be bridged across to BNB, so there were just a handful of tokens that could actually capture the jar, none of which was for sale. Since the profit was sufficient to justify taking on the risk of being the required UNI, I decided I'd buy the UNI and bridge it across while Codex was preparing the contract to capture the jar and liquidate the proceeds. However, even bridging was not that simple. The [Wormhole bridge UI](https://portalbridge.com/) did not support this tx, so I needed a script to interact directly with the [`NttManager`](https://etherscan.io/address/0x6569925Aac77D6B8Bb085F31F9828ff80D5a0c44) to wrap my UNI, as follows:
 
 ```bash
 # Lock the UNI and send it to BNB.
@@ -89,7 +89,7 @@ Of course, at this point I realized that searchers were actively monitoring the 
 
 ## Optimistic protocol fees
 
-After missing the jar a few times I was determined to get a profitable capture on *some* chain. I scanned all of the chains listed under the [protocol fees README](https://github.com/Uniswap/protocol-fees) and the chain that stood out was Optimism since it wasn't dead but wasn't overly competitive either like base or mainnet. I was largely familiar with what needed to be done, and since I wasn't greedy but rather just wanted some *non-zero* profit, I figured it should be quick and easy. I set up my jar monitoring and evaluation scripts, deployed and tested my smart contract to release the jar and enforce some non-zero profit margin on execution. I waited several days for the jar to come to the desired claim value and iterated over the system to ensure that the contract execution was sound, jar asset coverage was up to scratch, etc. However, when the jar valuation came close to the UNI replacement cost, there was a quick price dip and I got sniped **again**:
+After missing the jar a few times I was determined to get a profitable capture on *some* chain. I scanned all of the chains listed under the [protocol fees README](https://github.com/Uniswap/protocol-fees) and the chain that stood out was Optimism since it wasn't dead but wasn't overly competitive either like base or mainnet. I set up my jar monitoring and evaluation scripts, deployed and tested my smart contract to release the jar and enforce some non-zero profit margin on execution. I waited several days for the jar to come to the desired claim value and iterated over the system to ensure that the contract execution was sound, jar asset coverage was up to scratch, etc. However, when the jar valuation came close to the UNI replacement cost, there was a quick price dip and I got sniped **again**:
 
 ![Desktop View](/assets/img/sample/tokenjar/iota.png)
 
@@ -101,13 +101,12 @@ What went wrong? Despite asking Codex to learn from every missed snipe, it turns
 
 - The third issue was that I set a very small profit threshold of $42.69, but this was still insufficient for a trigger since the max profit we hit was $32.12. I assumed $42.69 would be small enough to undercut the competitor entirely, but this was a useless barrier given the first 2 issues of accurate `jar<->replacement cost` valuations.
 
-At this point I was pretty jaded since this project was meant to be a quick `for-fun-and-profit` situation I could use for a short blog post and use in job applications (I'm currently open to this kind of work btw!) but it had already taken a lot of time and exposed me to risk through the UNI spot position. I figured I could retry with some better planning, but it turned out I had bigger problems on my hand.
+This was meant to be a quick for-fun-and-profit project, but it had already taken far more time than expected. Now I had bigger, more annoying problems to deal with.
 
 ### A challenging 7-day window
 
-Due to market volatility, I profited from the UNI upside while missing jar claims in previous attempts on BNB, Polygon etc, but the UNI price was now dropping close to my entry for the UNI I bought for this attempt. I'm well aware of how fast markets can change direction, so I figured I'd sell the tokens while I gathered myself before the next attempt. Unfortunately, the liquidity on the chain was insufficient, so selling would cause too much slippage and I wouldn't be able to recover my capital. I looked at a few CEXes and none seemed to support UNI as a deposit token despite UNI trading there. Then, I looked around at a few bridges to bridge back to mainnet and then sell it there, but the bridges either couldn't handle the size or didn't support the token at all. In fact, I almost got phished for the entire amount! I reported this to SEAL afterwards just fyi:
+Due to market volatility, I profited from the UNI upside while missing jar claims in previous attempts on BNB, Polygon etc, but the UNI price was now dropping close to my entry for the UNI I bought for this attempt. I'm well aware of how fast markets can change direction, so I figured I'd sell the tokens while I gathered myself before the next attempt. Selling on Optimism meat heavy slippage due to low liquidity, and I couldn't find a CEX accepting Optimism UNI deposits or a fast bridge that supported the token and size.
 
-![Desktop View](/assets/img/sample/tokenjar/phish.png)
 
 Now the last option would be to bridge back to mainnet with the canonical bridge. However, compared to the Wormhole-wrapped synthetic UNI used for BNB, Polygon and other chains, this was optimistic-bridged UNI meaning it was subject to Optimism's 7-day challenge period before it reached mainnet. This meant that even if I wanted to bridge my tokens back and take a short break, I couldn't! I'd be stuck in the insanely long challenge period while exposed to a spot UNI position I was increasingly uncomfortable with. I had a hunch that this price drop was going to be severe (partly because of the insane run-up that happened) and as a last option to save myself from a larger loss, I hedged my position on Hyperliquid with the UNI perp and went 1x short to go nearly delta neutral:
 
@@ -121,41 +120,17 @@ With my position hedged, I brushed off my feelings of fatigue and decided to set
 
 ![jar mech](/assets/img/sample/tokenjar/UKR.png)
 
-This was interesting because all other claims I'd seen had been executed through a private closed-source contract, while this had several [permissionless claim functions](https://optimistic.etherscan.io/address/0xD654DA253C815027154375aBdf3BaA97D0B46CFb#code#F1#L138) for anyone to use. I also thought it was interesting that it had Ukrainian in-line comments, can't say I've seen that before despite reviewing contracts for several years now. In any case, I thought this was a good backup option for our operations, so I got Codex to prepare a script to generate calldata for this contract as an emergency option if, for any reason, our setup didn't work, as well as a local script I could force execute. This made sense for me since `0xiota` had already used this contract for several claims, and I couldn't see any security issues with it. The only downside to using this contract was that it leaves the recipient to liquidate all the assets manually after the claim, which is part of the reason I left it as a secondary option.
+Unlike the private contracts I'd seen used for other claims, this one had [permissionless claim functions](https://optimistic.etherscan.io/address/0xD654DA253C815027154375aBdf3BaA97D0B46CFb#code#F1#L138). It also had Ukrainian in-line comments, which I've never seen before despite reviewing contracts for several years now. Since `0xiota` had used it successfully and I couldn't see any security issues, I got Codex to prepare an emergency script alongside my local backup. It required liquidating the claimed assets separately, so I kept it as a secondary option.
 
 The second hardening process I added was to enumerate all possible competitors on the chain. This is easier with chains that use synthetic UNI since there is no other purpose for them, so you could just list all holders and see who your competition is. On Optimism, the UNI used is the main variant that was created in the genesis block so there are many more holders and the UNI is actually traded as normal, even if the liquidity is low. That being said, I was still able to list only 3 other holders above the threshold 2000 UNI value:
 
 ![Desktop View](/assets/img/sample/tokenjar/holders.png)
 
-Looking through each holder's tx history, I found that two were EOAs that had been dormant for several years, and the main holder was a Uniswap contract. I was confident that I was the only person on the chain interested in the `TokenJar` at the time, even if there wasn't definitive proof (i.e. UNI split over several accounts can easily be batched at claim time). To maintain this position, I added monitoring for incoming UNI bridges, with alerts sent to my Telegram:
-
-```javascript
-for log in response.json()["result"]:
-    # Indexed topic 3 is the Ethereum sender.
-    sender = "0x" + log["topics"][3][-40:]
-    # Event data contains:
-    #   word 0: Optimism recipient
-    #   word 1: amount
-    raw = bytes.fromhex(log["data"][2:])
-    recipient = "0x" + raw[12:32].hex()
-    amount_wei = int.from_bytes(raw[32:64], "big")
-    amount_uni = amount_wei / 10**18
-    tx_hash = log["transactionHash"]
-    send_Telegram(
-        "🚨 UNI bridge into Optimism detected\n\n"
-        f"Amount: {amount_uni:,.6f} UNI\n"
-        f"Ethereum sender: {sender}\n"
-        f"Optimism recipient: {recipient}\n"
-        "Status: L1 initiated; L2 finalization not yet observed\n"
-        f"Transaction: https://etherscan.io/tx/{tx_hash}"
-    )
-```
-
-This is to alert me that something is happening, but is otherwise largely cosmetic. The actual in-flight UNI monitor is used as a trigger in case there's an EOA whose UNI balance is about to be above the threshold amount, which means it's more than likely that that person is a competitor for the jar.
+Looking through each holder's tx history, I found that two were EOAs that had been dormant for several years, and the main holder was a Uniswap contract. I was confident that I was the only person on the chain interested in the `TokenJar` at the time, even if there wasn't definitive proof (i.e. UNI split over several accounts can easily be batched at claim time). To maintain this position, I added monitoring for incoming UNI bridges with alerts sent to my Telegram bot. The actual in-flight UNI monitor is used as a trigger in case there's an EOA whose UNI balance is about to be above the threshold amount, which means it's more than likely that that person is a competitor for the jar.
 
 ### Opening the small window
 
-This leads to the next step in preparation, which is the exact execution trigger I had to decide on. This can be a little tricky to figure out in general, but even more so in this case because of the challenge period. If we're using a chain with synthetic UNI, the jar value should always exceed the current UNI market value since we'd be able to easily bridge the UNI back and sell on mainnet. It's not as simple in this case. Moreover, if the price of UNI is dumping, you'd also rationally want to claim a jar that at least covers the cost of all the UNI you bought. In this case, since I was ~delta neutral and hoping the UNI price would dump, I needed to ensure that claiming the jar and closing the short would leave me better off than waiting seven days to bridge back and unwind the short. To add to the complexity, I am also perma-long ETH and had no interest in taking an ETH loss if I made a USD profit, so my trigger was as follows:
+Claiming the jar and closing the short needed to leave me better off than waiting seven days to bridge back and unwind. Since I'm perma-long ETH, I also wanted to protect my ETH basis, not just make a USD profit. I decided my trigger was as follows:
 
 ```java
 pool coverage is complete to ensure an accurate jar valuation
@@ -183,7 +158,7 @@ This meant that in the worst-case claim scenario, I'd just lose up to about $50 
 
 ### Executing in prod
 
-The UNI market started to dump, and it started to validate that the short was a successful thesis. Since I was ~delta neutral, this didn't generate any profit for me directly. However, being ~delta neutral means I could evaluate the jar's profitability against the combined spot and short position. This meant that as soon as the jar value exceeded the *current* cost of the required UNI plus the short proceeds, I was in profit (bar infra costs and misc on-chain costs). During severe market swings, trading volume picks up as well, so even more trading fees flow into the jar, as can be seen in the chart below:
+The UNI market started to dump, and it started to validate that the short was a successful thesis. Since I was ~delta neutral, this didn't generate any profit for me directly. However, being ~delta neutral means I could evaluate the jar's profitability against the combined spot and short position. The combined jar proceeds and short PNL needed to cover my original UNI cost before other costs (infra, gas, bridging, etc). During severe market swings, trading volume picks up as well, so even more trading fees flow into the jar, as can be seen in the chart below:
 
 ![window](/assets/img/sample/tokenjar/window.png)
 
@@ -217,7 +192,7 @@ I think it's worth briefly talking about the PNL against both ETH and USD. Of co
 
 Of course, it's not clear if your competitor is ever hedged since they may be participating on any perp DEX at some other address, or even a CEX. In any case, I am lucky that there was a downtrend instead of an uptrend. In the case of an uptrend, my short would lose money, and it would have been more likely that an unhedged competitor would come and claim the jar. It would be more profitable if they had bought before the rise and were measuring profit against their entry cost.
 
-While I don't care to talk about PNL for the sake of it, I think it's interesting to talk about some numbers just because of all the dynamics involved. I targeted `+$420.69` in profit while at least covering my ETH basis, but since the claim was delayed due to the failing initial execution attempts, the profits ended up being higher than the target. The gross returns and costs are as follows:
+I targeted `+$420.69` in profit while at least covering my ETH basis, but since the claim was delayed due to the failing initial execution attempts, the profits ended up being higher than the target. The gross returns and costs are as follows:
 
 - USD return: `+$1,617.79`, or `4.61%` profit on the combined capital committed to the UNI spot position and the short, denominated in USD.
 
@@ -235,25 +210,7 @@ Overall, while it was profitable, I think the actual return was not worth it giv
 
 ## Capture postmortem
 
-There's a lot to learn from this entire process. I'll highlight some of the noteworthy things that went wrong during the actual production execution, since that's what is the most relevant and something you could learn from for your own searching. Of course, it wasn't all bad! We got a valid claim with some money for lunch. Here are some things that went well:
-
-- **The UNI short worked well:**
-
-    Having a ~delta neutral UNI position was a good idea to keep us ahead of unhedged potential competitors who might have bought UNI before the downtrend, and also protected me from real losses had I just kept the spot UNI as is. I believe this is the main reason I was able to profit over both USD and ETH cost bases, which I'm satisfied with given the circumstances.
-
-- **Accurate jar valuation led to a profitable tx:**
-
-    After several rounds of bad coverage, I eventually converged on good coverage and good jar valuation, which means by the time the tx landed I was quite sure we were in profit despite not having the atomic liquidation leg.
-
-- **The emergency backup (eventually) worked:**
-
-    Part of the beauty of defi is the composability aspect, and being able to use someone else's permissionless contract was a cool way to get my claim through, even if it was quite annoying/stressful that my deployed contract didn't work.
-
-- **Enumerating potential competitors was a great idea:**
-
-    Going through all the UNI holders on the chain and trying to discern who might be interested in the jar, and finding none, really helped alleviate my stress and gave me the last push to see this project through. Of course, the system was not perfect and in hindsight there may have been other ways a competitor could have cropped up, but it was a good implementation regardless.
-
-Now for some of the things that went wrong:
+There's a lot to learn from this entire process. The hedge, improved pool coverage and permissionless backup contract eventually got me through, but execution still had several problems.
 
 - **Stale pricing and slow scanning almost cost me the jar:**
 
@@ -270,8 +227,6 @@ Now for some of the things that went wrong:
 - **Double the capital needed for the hedge:**
 
     - I can immediately acknowledge that being able to go delta neutral while stuck behind a potential 7-day window is a very lucky position to be in. Beyond that, having capital locked up that isn't producing money beyond funding fees is less than ideal.
-
-There are several more points for either side of the coin, but this is the gist of the postmortem.
 
 ### Thoughts on blind AI steering
 
