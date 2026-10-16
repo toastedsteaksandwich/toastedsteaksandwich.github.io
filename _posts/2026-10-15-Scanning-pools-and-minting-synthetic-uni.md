@@ -174,8 +174,6 @@ Except...it didn't work. We hit every gate in our normal trigger but things were
 
 At this point, I fully switched into emergency mode. I asked Codex to run the backup script to call the `UniFeeClaimRouterOptimism` contract and I began running my local emergency scripts just to have either one of them land. Just to make things even more dramatic, **both** of these scripts failed too, and for different reasons! The local emergency script used the stale pricing and did not pass every trigger gate, so no tx was signed and broadcast. The remote emergency claim passed every trigger gate, but like before, the tx exceeded the gas limit despite the liquidation leg being excluded.
 
-![stopped](/assets/img/sample/tokenjar/stop.png){: width="400" }
-
 Eventually, during a heightened sense of urgency, Codex repackaged the tx without 25 of the lowest-value pools, which was sufficient to reduce the gas usage down to 14.46 million. With great relief, the repackaged transaction that flushed 275 V3 pools, 18 V4 currencies, burnt 2000 Optimism-bridged UNI and claimed 20 token balances landed on-chain:
 
 ![claimed](/assets/img/sample/tokenjar/claimed.png)
