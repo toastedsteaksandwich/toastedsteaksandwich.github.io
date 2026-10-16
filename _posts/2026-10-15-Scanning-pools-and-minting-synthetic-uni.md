@@ -10,9 +10,7 @@ tags: research
 
 ## Intro
 
-I thought I found easy money that everyone else had missed. A few failed attempts later, I just wanted my own money back.
-
-A few weeks ago I finished up the [Wintermute Alpha challenges](https://ashiq.co.za/posts/Wintermute-Alpha-Solves/) and noticed they left some actual alpha in challenge 7, showing that the [XLayer TokenJar](https://www.oklink.com/x-layer/evm/address/0x8Dd8B6D56e4a4A158EDbBfE7f2f703B8FFC1a754) had real money just waiting to be claimed. I decided to look around at the other `TokenJar` implementations on other networks and saw that there was some easy money there too! 
+I thought I found easy money that everyone else had missed. A few failed attempts later, I just wanted my own money back. I recently finished up the [Wintermute Alpha challenges](https://ashiq.co.za/posts/Wintermute-Alpha-Solves/) and noticed they left some actual alpha in challenge 7, showing that the [XLayer TokenJar](https://www.oklink.com/x-layer/evm/address/0x8Dd8B6D56e4a4A158EDbBfE7f2f703B8FFC1a754) had real money just waiting to be claimed. I decided to look around at the other `TokenJar` implementations on other networks and saw that there was some easy money there too! 
 
 **TL;DR**
 
