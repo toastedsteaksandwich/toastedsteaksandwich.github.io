@@ -10,11 +10,13 @@ tags: research
 
 ## Intro
 
-A few weeks ago I finished up the [Wintermute Alpha challenges](https://ashiq.co.za/posts/Wintermute-Alpha-Solves/) and noticed they left some actual alpha in challenge 7, showing that the [XLayer TokenJar](https://www.oklink.com/x-layer/evm/address/0x8Dd8B6D56e4a4A158EDbBfE7f2f703B8FFC1a754) had real money just waiting to be claimed. The challenge showed that the jar was truly valuable, but for several reasons could not be claimed. I decided to look around at the other `TokenJar` implementations on other networks and saw that there was some easy money to be made! At least, that's what I thought initially, only to fall into a very deep rabbit hole and stumble several times before landing an actual, profitable `TokenJar` capture.
+I thought I found easy money that everyone else had missed. A few failed attempts later, I just wanted my own money back.
+
+A few weeks ago I finished up the [Wintermute Alpha challenges](https://ashiq.co.za/posts/Wintermute-Alpha-Solves/) and noticed they left some actual alpha in challenge 7, showing that the [XLayer TokenJar](https://www.oklink.com/x-layer/evm/address/0x8Dd8B6D56e4a4A158EDbBfE7f2f703B8FFC1a754) had real money just waiting to be claimed. I decided to look around at the other `TokenJar` implementations on other networks and saw that there was some easy money there too! At least, that's what I thought initially, only to fall into a very deep rabbit hole and stumble several times before landing an actual, profitable `TokenJar` capture.
 
 **TL;DR**
 
-- I spotted an opportunity to make some profit off the Uniswap Protocol Fees mechanism
+- I spotted an opportunity to make some profit off the [Uniswap Protocol Fees](https://github.com/Uniswap/protocol-fees) mechanism.
 - I missed the first attempt, and a few more, only to find that competitors were likely monitoring who planned to capture the profit.
 - I attempted to capture the same opportunity on the Optimism chain, only to miss the jar and find no practical way to exit immediately other than waiting out the 7-day challenge period.
 - I decided to hedge my position and after more preparation, and some drama, finally claimed some profit.
@@ -25,20 +27,21 @@ A few weeks ago I finished up the [Wintermute Alpha challenges](https://ashiq.co
 
 Uniswap released a system to ["collect fees from any revenue source on any blockchain and convert them efficiently"](https://github.com/Uniswap/protocol-fees). The mechanism is fairly simple:
 
-```
+
 - Fees from Uniswap v2/v3/v4 accumulate and can be flushed into a single contract called the `TokenJar`.
 
 - There is a releaser mechanism that anyone can trigger to release up to 20 tokens of their choice from the jar, provided the searcher pays a specified amount of UNI tokens, usually 2000 or 4000 tokens.
 
 - The UNI is then burnt by the releaser in exchange for the tokens, allowing for efficient conversion.
-```
+
 
 This looks something like the following:
 
 ![jar mech](/assets/img/sample/tokenjar/mech.png)
 
-Naively, you might agree that it should be quite simple for a searcher to make some money! I encourage you to stop and think about how you might implement a strategy to capture the jar for profit. Your immediate thought process might be along the lines of the following:
+The obvious initial strategy looks like this:
 
+```
 1) What tokens does the jar hold right now?
 
 2) What is the sum of the top 20 balances worth?
@@ -46,20 +49,15 @@ Naively, you might agree that it should be quite simple for a searcher to make s
 3) What does the amount of UNI required by the releaser cost?
 
 4) If it's profitable, buy or flashloan the UNI, `release()` the top 20 balances and liquidate all the tokens and net the difference as profit.
-
-If it were this simple, this blog post would be a lot shorter! I quickly learnt this fee collection mechanism is a lot more nuanced.  I knew it wasn't this simple before falling into the rabbit hole since I had a look at this system earlier this year on Ethereum mainnet.
+```
 
 An important point is that the current jar token balances are a lot less important than the **fees** that need to be flushed from Uniswap v2/v3/v4 pools. Fees from pools (other than v2 pools) don't automatically flow into the jar and each version of Uniswap pools have different mechanisms to flush fees into the jar to be collected. When I was searching on mainnet I saw `jaredfromsubway` had already incorporated fee flushing+jar claiming as part of their MEV sandwiching so I decided to move elsewhere since I didn't think it was worth the time to compete. Nevertheless, from my recent adventures to chase a jar claim, I found these non-obvious hurdles that are worth mentioning:
 
-- You need to evaluate the value of all tokens, so you need a way to enumerate all tokens, usually with some 3rd party API.
-
-    - Some token valuations are non-obvious, like Uni V2 LP tokens, or otherwise obscure tokens that aren't scam coins.
+- You need to evaluate the value of all tokens, so you need a way to enumerate all tokens, usually with some 3rd party API. Some token valuations are non-obvious, like Uni V2 LP tokens, or otherwise obscure tokens that aren't scam coins.
 
 - You need a deeply comprehensive scan of **all** pools on the chain, or your jar valuation will not be accurate. If high valued pools are missed, the maximum value will decrease, leading to less profit and potentially leading to missing the jar if your profit target isn't met. Moreover, tokens should also be considered for their liquid value after slippage since that's what lands up in your wallet. It seems obvious, but if you overvalue the jar you'll lose money (perhaps due to stale prices), and if it's undervalued (as described above) you could be too late to capture the jar.
 
 - Buying UNI exposes you to market fluctuations. Buying it too early exposes your position to more market fluctuations, while buying it too late may cause you to miss the opportunity to claim. Market direction also plays a big role in the window of opportunity to capture the jar.
-
-There are several other points but they'll be implicitly covered in the rest of this post. As you can see, this is already a lot different to the naive interpretation!
 
 ## Tripping the wire
 
@@ -115,15 +113,7 @@ Now the last option would be to bridge back to mainnet with the canonical bridge
 
 ![Desktop View](/assets/img/sample/tokenjar/open-short.png)
 
-I wasn't super happy with this situation and wished I had tested a round trip of bridging UNI to and from Optimism like I did with the synthetic UNI tokens, but I was there and needed to find a way out without taking a large hit. Overall, I saw I had a few options, one of which had a silver lining:
-
-1) Keep the ~delta neutral position, use the canonical bridge and wait out the 7-day challenge period
-
-2) If the price of UNI reverses and starts increasing, again use the canonical bridge and wait out the 7-day challenge period
-
-3) If the price of UNI continues to dump (which looked likely according to a divine source), the jar value required for a claim decreases and the wait time potentially decreases too.
-
-Options (1) and (2) were largely the same with option 2 just tacking on a few extra days for waiting, while option (3) gave me a way out with not only a shorter wait time, but also a chance for profit and even a way to redeem myself from the misses that caused me to feel so jaded.
+I wasn't super happy with this situation and wished I had tested a round trip of bridging UNI to and from Optimism like I did with the synthetic UNI tokens, but I was there and needed to find a way out without taking a large hit through slippage. I could bridge back and wait seven days with the hedge open, or stay and try to claim the jar. If UNI kept falling, the short would be profitble and it'd bring the next claim sooner.
 
 ## The average-sized short
 
@@ -167,7 +157,7 @@ This is to alert me that something is happening, but is otherwise largely cosmet
 
 This leads to the next step in preparation, which is the exact execution trigger I had to decide on. This can be a little tricky to figure out in general, but even more so in this case because of the challenge period. If we're using a chain with synthetic UNI, the jar value should always exceed the current UNI market value since we'd be able to easily bridge the UNI back and sell on mainnet. It's not as simple in this case. Moreover, if the price of UNI is dumping, you'd also rationally want to claim a jar that at least covers the cost of all the UNI you bought. In this case, since I was ~delta neutral and hoping the UNI price would dump, I needed to ensure that claiming the jar and closing the short would leave me better off than waiting seven days to bridge back and unwind the short. To add to the complexity, I am also perma-long ETH and had no interest in taking an ETH loss if I made a USD profit, so my trigger was as follows:
 
-```sh
+```java
 pool coverage is complete to ensure an accurate jar valuation
 AND
 at least break even on an ETH basis if the jar+hedged position is liquidated to ETH
@@ -197,11 +187,7 @@ The UNI market started to dump, and it started to validate that the short was a 
 
 ![window](/assets/img/sample/tokenjar/window.png)
 
-As the price was dipping, I started falling into the execution window:
-
-![exec window](/assets/img/sample/tokenjar/exec-window.png)
-
-At this point, I was ready to manually intervene since there was some non-zero profit and I really had no interest in waiting several more days for the next jar or needing to wait out the challenge period. However, since there were no competitors coming in, I let it run. After some more market turbulence, I saw we'd hit our threshold and I expected the trigger to hit:
+As the price was dipping, I started falling into the execution window. At this point, I was ready to manually intervene since there was some non-zero profit and I really had no interest in waiting several more days for the next jar or needing to wait out the challenge period. However, since there were no competitors coming in, I let it run. After some more market turbulence, I saw we'd hit our threshold and I expected the trigger to hit:
 
 ![above](/assets/img/sample/tokenjar/above.png)
 
@@ -301,6 +287,6 @@ I feel quite fortunate to have been using/hacking/testing defi protocols long be
 
 ## Conclusion
 
-Overall it was a fun project, and one that I severely underestimated the size of compared to when I first started. I quite enjoyed digging around with the more niche Wormhole-wrapped tokens, enumerating other holders as potential competitors and having my short work in my favour. Hopefully you've learnt something from this for your own searching. gl;hf!
+Overall it was a fun project, and one that I severely underestimated the size of compared to when I first started. Hopefully you've learnt something from this for your own searching.
 
 Also, I've been a solo searcher/researcher for some time now and I feel ready to join a team in a more formal capacity. Ideally I'd join a team doing similar research related to long-tail MEV or anything adjacent to this blog post. My twitter/Telegram (@AshiqAmien) dms are open, feel free to reach out! :)
